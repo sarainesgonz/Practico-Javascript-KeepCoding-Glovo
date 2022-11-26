@@ -24,8 +24,9 @@ function showMenu() {
     console.log("12- Mostrar por consola la edad media de todos los alumnos de la clase.");
     console.log("13- Mostrar por consola la edad media de las chicas de la clase.");
     console.log("14- Añadir nueva nota a los alumnos. Por cada alumno de la clase, tendremos que calcular una nota de forma aleatoria(número entre 0 y 10) y añadirla a su listado de notas.");
-    console.log("15- Ordenar el array de alumnos alfabéticamente según su nombre.")
-    console.log("16- Mostrar por consola el alumno de la clase con las mejores notas.")
+    console.log("15- Ordenar el array de alumnos alfabéticamente según su nombre.");
+    console.log("16- Mostrar por consola el alumno de la clase con las mejores notas.");
+    console.log("17- Mostrar por consola la nota media más alta de la clase y el nombre del alumno al que pertenece.")
 }
 
 function getOption() {
@@ -33,7 +34,7 @@ function getOption() {
     const promise = new Promise((resolve, reject) => {
         rl.question('Selecciona una opción del menú: ', (num) => {
             rl.pause();
-            if (num > 0 && num <= 16) {
+            if (num > 0 && num <= 17) {
                 num = Number.parseInt(num);
                 resolve(num);
             } else {
@@ -60,7 +61,7 @@ function showNames(array) {
 
 function deleteLast(array) {    //OPCION 4
     array.pop();
-    console.table(array); //no mostrar la table,mostrar el indice del alumno eliminado
+    console.table(array); 
 }
 
 function deleteRandom(array) {
@@ -71,9 +72,8 @@ function deleteRandom(array) {
     console.log(`Eliminaste al alumno en la posicion ${randomIndex}.`)
 }
 
-function showFemales(array) { //QUITAR EL CONSOLE.table SINO SE IMPRIME EN LA FUNCION DE ABAJO
+function showFemales(array) { 
     const females = array.filter(person => person.gender === 'female');
-    console.table(females)
     return females
 }
 
@@ -164,21 +164,36 @@ function sortArray(array) {
 
 function bestMarks(array) {
     let bestMarks = 0;
-    let studentName;
+    let studentInfo;
+    let highestMean;
     array.forEach(student => {
       const totalMarks = student.examScores.reduce((total, score) => total + score, 0); 
       if(totalMarks > bestMarks) {
         bestMarks = totalMarks
-        studentName = student.name
+        studentInfo = student;
+        highestMean = bestMarks / student.examScores.length
       } else if(totalMarks < bestMarks){
         bestMarks = bestMarks
       }  else if(totalMarks === 0) {
         bestMarks = 0
-      }
+      } 
     })
-    console.log(studentName,bestMarks)
+    return [studentInfo, bestMarks, highestMean]
   }
-
+  
+  function showHighestMark(array) {
+    const highestScores = bestMarks(array);
+    const studentInfo = highestScores.at(0);
+    const highestMark = highestScores.at(1)
+    console.log(studentInfo, highestMark)
+  }
+  
+  function showHighestMean(array){
+    const bestScores = bestMarks(array)
+    const bestStudentInfo = bestScores.at(0)
+    const highestMean = bestScores.at(2)
+    console.log(bestStudentInfo.name, highestMean)
+  }
 
 function displayAction(result, students) {
     /*Recibe la opcion y la lista a consultar. Devuelve la accion asociada a la opción seleccionada*/
@@ -205,7 +220,8 @@ function displayAction(result, students) {
             break;
         case 6:
             console.log("OPCION 6: Mostrar por consola todos los datos de los alumnos que son chicas.");
-            showFemales(students);
+            const femalesInfo = showFemales(students)
+            console.table(femalesInfo);
             break;
         case 7:
             console.log("OPCION 7: Mostrar por consola el número de chicos y chicas que hay en la clase.");
@@ -246,10 +262,11 @@ function displayAction(result, students) {
             break;
         case 16:
             console.log("OPCION 16: Mostrar por consola el alumno de la clase con las mejores notas. ");
-            bestMarks(students);
+            showHighestMark(students);
             break;
         case 17:
             console.log("OPCION 17: Mostrar por consola la nota media más alta de la clase y el nombre del alumno al que pertenece.");
+            showHighestMean(students);
             break;
         case 18:
             console.log("OPCION 18: Añadir un punto extra a cada nota existente de todos los alumnos. Si los alumnos aún no tienen registrada ninguna nota, les pondremos un 10.");

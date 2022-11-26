@@ -1,19 +1,19 @@
 
 const students = [{
   age: 32,
-  examScores: [4, 2, 10],
+  examScores: [],
   gender: 'male',
   name: 'Edu'
 },
 {
   age: 29,
-  examScores: [3, 5, 9, 8],
+  examScores: [],
   gender: 'female',
   name: 'Silvia'
 },
 {
   age: 24,
-  examScores: [10, 8],
+  examScores: [],
   gender: 'female',
   name: 'Maria'
 },
@@ -29,7 +29,3 @@ const availableFemaleNames = ['Cecilia', 'Ana', 'Luisa', 'Susana', 'Isabel', 'Vi
 const availableGenders = ['male', 'female'];
 
 export { students, availableFemaleNames, availableGenders, availableMaleNames };
-
-
-
-
