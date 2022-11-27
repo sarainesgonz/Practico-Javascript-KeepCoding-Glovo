@@ -12,13 +12,13 @@ const students = [{
   name: 'Silvia'
 },
 {
-  age: 24,
+  age: 29,
   examScores: [],
   gender: 'female',
   name: 'Maria'
 },
 {
-  age: 27,
+  age: 24,
   examScores: [],
   gender: 'male',
   name: 'Diego'
