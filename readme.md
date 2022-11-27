@@ -1,6 +1,6 @@
 ## Practico del Modulo de Javascript desde Cero del Bootcamp Mujeres en Tech de KeepCoding y Glovo
 El siguiente código lo he desarrollado en respuesta a los lineamientos propuestos en el challenge del módulo 
-Javascript desde Cero del Bootcamp Mujeres en Tech de keepCoding y Glovo.
+Javascript desde Cero del Bootcamp Mujeres en Tech de KeepCoding y Glovo.
 A continuación los requisitos: 
 
 
