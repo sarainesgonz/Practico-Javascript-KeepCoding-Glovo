@@ -24,6 +24,14 @@ export function showMenu() {
     console.log("18- Añadir un punto extra a cada nota existente de todos los alumnos. Si los alumnos aún no tienen registrada ninguna nota, les pondremos un 10.")
 }
 //FUNCIONES DEL SWITCH 
+export function showTable(array) {
+    if (array.length > 0) {
+        console.table(array)
+    } else {
+        console.log('No hay alumnos que mostrar. La lista está vacía:')
+        console.table(array)
+    }
+}
 
 export function showAmount(array) {
     const amountStudents = array.length;
@@ -31,60 +39,89 @@ export function showAmount(array) {
 }
 
 export function showNames(array) {
-    for (let i = 0; i < array.length; i++) {
-        const studentName = array[i].name;
-        console.log(`Nombre del alumno ${i + 1}: ${studentName}`);
+    if(array.length > 0) {
+        for (let i = 0; i < array.length; i++) {
+            const studentName = array[i].name;
+            console.log(`Nombre del alumno ${i + 1}: ${studentName}`);
+        }
+    }else {
+        console.log('No se muestran nombres porque no hay alumnos en esta clase')
     }
 }
 
 export function deleteLast(array) {    
-    array.pop();
-    console.log('Se eliminó el último alumno: ')
-    console.table(array);
+    if (array.length > 0) {
+        array.pop();
+        console.log('Se eliminó el último alumno: ')
+        console.table(array);
+    } else {
+        console.log('No hay alumnos que eliminar. La lista está vacía.')
+    }
 }
 
 export function deleteRandom(array) {
-    const max = array.length;
-    const min = 0;
-    const randomIndex = Math.floor(Math.random() * (max - min + 1)) + min;
-    array.splice(randomIndex, 1);
-    console.log(`Eliminaste al alumno en la posicion ${randomIndex}.`)
+    if (array.length > 0) {
+        const max = array.length;
+        const min = 0;
+        const randomIndex = Math.floor(Math.random() * (max - min + 1)) + min;
+        array.splice(randomIndex, 1);
+        console.log(`Eliminaste al alumno en la posicion ${randomIndex}.`)
+    } else {
+        console.log('No hay alumnos que eliminar. La lista está vacía.')
+    }
 }
 
 export function showFemales(array) {
-    const females = array.filter(person => person.gender === 'female');
-    if (females.length === 0) {
-        console.log("No hay chicas en esta clase.")
+    if (array.length > 0) {
+        const females = array.filter(person => person.gender === 'female');
+        if (females.length === 0) {
+            console.log("No hay chicas en esta clase.")
+        }
+        return females
+    } else {
+        console.log('No hay alumnos en esta clase. Lalista está vacía.')
     }
-    return females
+
 }
 
 export function countMalesAndFemales(array) {
-    let amountMales = 0;
-    let amountFemales = 0;
-    for (let i = 0; i < array.length; i++) {
-        if (array[i].gender === 'female') {
-            amountFemales = amountFemales + 1;
-        } else {
-            amountMales = amountMales + 1;
+    if(array.length > 0) {
+        let amountMales = 0;
+        let amountFemales = 0;
+        for (let i = 0; i < array.length; i++) {
+            if (array[i].gender === 'female') {
+                amountFemales = amountFemales + 1;
+            } else {
+                amountMales = amountMales + 1;
+            }
         }
+        console.log(`Cantidad de chicos: ${amountMales} `);
+        console.log(`Cantidad de chicas: ${amountFemales} `);
+    } else {
+        console.log('No hay alumnos en esta clase. Lista vacia.')
     }
-    console.log(`Cantidad de chicos: ${amountMales} `);
-    console.log(`Cantidad de chicas: ${amountFemales} `);
 }
 
 export function allFemales(array) {
-    const allFemales = array.every((student) => student.gender === 'female');
-    console.log(`Los alumnos de la clase son todas chicas?: ${allFemales}`)
+    if(array.length > 0) {
+        const allFemales = array.every((student) => student.gender === 'female');
+        console.log(`Los alumnos de la clase son todas chicas?: ${allFemales}`)
+    } else {
+        console.log('No hay alumnos en esta clase. Lista vacía.')
+    }   
 }
 
 export function ageInRange(array) {
-    const studentsInRange = array.filter(student => student.age >= 20 && student.age <= 25);
-    for (let i = 0; i < studentsInRange.length; i++) {
-        console.log(studentsInRange[i].name)
-    }
-    if (studentsInRange.length === 0) {
-        console.log("No hay ningún alumno en ese rango etario.")
+    if (array.length > 0) {
+        const studentsInRange = array.filter(student => student.age >= 20 && student.age <= 25);
+        for (let i = 0; i < studentsInRange.length; i++) {
+            console.log(studentsInRange[i].name)
+        }
+        if (studentsInRange.length === 0) {
+            console.log("No hay ningún alumno en ese rango etario.")
+        }
+    } else {
+        console.log('No hay alumnos en esta clase. Lista vacía.')
     }
 }
 
