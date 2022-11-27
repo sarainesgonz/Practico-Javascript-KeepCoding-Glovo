@@ -1,5 +1,5 @@
 import readline from 'readline';
-import {students, availableFemaleNames, availableGenders, availableMaleNames} from './utils.js';
+import { students, availableFemaleNames, availableGenders, availableMaleNames } from './utils.js';
 
 const rl = readline.createInterface({
     input: process.stdin,
@@ -19,22 +19,23 @@ function showMenu() {
     console.log("7- Mostrar por consola el número de chicos y chicas que hay en la clase.");
     console.log("8- Mostrar true o false por consola si todos los alumnos de la clase son chicas.");
     console.log("9- Mostrar por consola los nombres de los alumnos que tengan entre 20 y 25 años.");
-    console.log("10- Añadir un alumno nuevo con los siguientes datos:");
+    console.log("10- Añadir un alumno nuevo con los siguientes datos: género, mombre y edad aleatorios, y lista de notas vacía.");
     console.log("11- Mostrar por consola el nombre de la persona más joven de la clase.");
     console.log("12- Mostrar por consola la edad media de todos los alumnos de la clase.");
     console.log("13- Mostrar por consola la edad media de las chicas de la clase.");
-    console.log("14- Añadir nueva nota a los alumnos. Por cada alumno de la clase, tendremos que calcular una nota de forma aleatoria(número entre 0 y 10) y añadirla a su listado de notas.");
+    console.log("14- Añadir nueva nota a los alumnos. Por cada alumno de la clase, calcular una nota de forma aleatoria(número entre 0 y 10) y añadirla a su listado de notas.");
     console.log("15- Ordenar el array de alumnos alfabéticamente según su nombre.");
     console.log("16- Mostrar por consola el alumno de la clase con las mejores notas.");
     console.log("17- Mostrar por consola la nota media más alta de la clase y el nombre del alumno al que pertenece.")
+    console.log("18- Añadir un punto extra a cada nota existente de todos los alumnos. Si los alumnos aún no tienen registrada ninguna nota, les pondremos un 10.")
 }
 
 function getOption() {
-    /*obtiene un ingreso por consola de la opcion elegida*/
+    /*Obtiene un ingreso por consola de la opcion elegida*/
     const promise = new Promise((resolve, reject) => {
         rl.question('Selecciona una opción del menú: ', (num) => {
             rl.pause();
-            if (num > 0 && num <= 17) {
+            if (num > 0 && num <= 18) {
                 num = Number.parseInt(num);
                 resolve(num);
             } else {
@@ -59,9 +60,10 @@ function showNames(array) {
     }
 }
 
-function deleteLast(array) {    //OPCION 4
+function deleteLast(array) {    
     array.pop();
-    console.table(array); 
+    console.log('Se eliminó el último alumno: ')
+    console.table(array);
 }
 
 function deleteRandom(array) {
@@ -72,7 +74,7 @@ function deleteRandom(array) {
     console.log(`Eliminaste al alumno en la posicion ${randomIndex}.`)
 }
 
-function showFemales(array) { 
+function showFemales(array) {
     const females = array.filter(person => person.gender === 'female');
     return females
 }
@@ -80,12 +82,11 @@ function showFemales(array) {
 function countMalesAndFemales(array) {
     let amountMales = 0;
     let amountFemales = 0;
-    debugger;
     for (let i = 0; i < array.length; i++) {
         if (array[i].gender === 'female') {
             amountFemales = amountFemales + 1;
         } else {
-            amountMales = amountMales + 1
+            amountMales = amountMales + 1;
         }
     }
     console.log(`En esta clase hay ${amountMales} chico(s) y ${amountFemales} chica(s)`);
@@ -93,7 +94,7 @@ function countMalesAndFemales(array) {
 
 function allFemales(array) {
     const allFemales = array.every((student) => student.gender === 'female');
-    console.log(`Los alumnos de la clase son todas chicas? ${allFemales}`)
+    console.log(`Los alumnos de la clase son todas chicas?: ${allFemales}`)
 }
 
 function ageInRange(array) {
@@ -119,9 +120,10 @@ function createRandomStudent(maleNames, femaleNames, genders) {
 }
 
 function addRandomStudent(array) {
-    const studentInfo = createRandomStudent(availableMaleNames, availableFemaleNames, availableGenders);
-    array.push(studentInfo);
-    console.log('Añadiste al siguiente alumno a la clase: ', studentInfo);
+    const newStudent = createRandomStudent(availableMaleNames, availableFemaleNames, availableGenders);
+    array.push(newStudent);
+    console.log('Añadiste al siguiente alumno a la clase: ');
+    console.log(newStudent)
 }
 
 function youngestStudent(array) {
@@ -131,13 +133,13 @@ function youngestStudent(array) {
 
 function meanAge(array) {
     const meanAge = array.reduce((total, student) => total + student.age, 0) / array.length;
-    console.log(`Edad media: ${meanAge}`)
+    console.log(`Edad media de toda la clase: ${meanAge}`)
 }
 
 function meanAgeFemales(array) {
     const females = showFemales(array);
     const meanAge = females.reduce((total, student) => total + student.age, 0) / females.length;
-    console.log(meanAge)
+    console.log(`Edad media de las chicas: ${meanAge}`)
 }
 
 function addRandomScore(array) {
@@ -162,38 +164,57 @@ function sortArray(array) {
     return sortedArray;
 }
 
-function bestMarks(array) {
-    let bestMarks = 0;
+//opcionales
+function bestScores(array) {
+    let bestScores = 0;
     let studentInfo;
     let highestMean;
     array.forEach(student => {
-      const totalMarks = student.examScores.reduce((total, score) => total + score, 0); 
-      if(totalMarks > bestMarks) {
-        bestMarks = totalMarks
-        studentInfo = student;
-        highestMean = bestMarks / student.examScores.length
-      } else if(totalMarks < bestMarks){
-        bestMarks = bestMarks
-      }  else if(totalMarks === 0) {
-        bestMarks = 0
-      } 
+        const totalMarks = student.examScores.reduce((total, score) => total + score, 0);
+        if (totalMarks > bestScores) {
+            bestScores = totalMarks
+            studentInfo = student;
+            highestMean = bestScores / student.examScores.length
+        } else if (totalMarks < bestScores) {
+            bestScores = bestScores
+        } else if (totalMarks === 0) {
+            bestScores = 0
+        }
     })
-    return [studentInfo, bestMarks, highestMean]
-  }
-  
-  function showHighestMark(array) {
-    const highestScores = bestMarks(array);
+    return [studentInfo, bestScores, highestMean]
+}
+
+function showHighestMark(array) {
+    const highestScores = bestScores(array);
     const studentInfo = highestScores.at(0);
-    const highestMark = highestScores.at(1)
-    console.log(studentInfo, highestMark)
-  }
-  
-  function showHighestMean(array){
-    const bestScores = bestMarks(array)
-    const bestStudentInfo = bestScores.at(0)
-    const highestMean = bestScores.at(2)
-    console.log(bestStudentInfo.name, highestMean)
-  }
+    const highestMark = highestScores.at(1);
+    console.log('Alumno con las mejores notas:');
+    console.log(studentInfo);
+    console.log(`La sumatoria de sus notas es: ${highestMark}`)
+}
+
+function showHighestMean(array) {
+    const highestScores = bestScores(array);
+    const bestStudentInfo = highestScores.at(0);
+    const highestMean = highestScores.at(2);
+    console.log(`Nota media más alta de la clase: ${highestMean}`);
+    console.log(`Nombre del alumno con mejor media: ${bestStudentInfo.name}`)
+}
+
+function addExtraPoint(array) {
+    console.log("Notas registradas:");
+    console.table(array);
+    for (let i = 0; i < array.length; i++) {
+        if (array[i].examScores.length > 0) {
+            array[i].examScores = array[i].examScores.map(n => n + 1);
+            array[i].examScores = array[i].examScores.map(mark => (mark > 10) ? 10: mark)
+        } else if (array[i].examScores.length === 0) {
+            array[i].examScores.push(10)
+        }
+    }
+    console.log("Nuevas notas:");
+    console.table(array)
+}
 
 function displayAction(result, students) {
     /*Recibe la opcion y la lista a consultar. Devuelve la accion asociada a la opción seleccionada*/
@@ -236,7 +257,7 @@ function displayAction(result, students) {
             ageInRange(students);
             break;
         case 10:
-            console.log("OPCION 10: Añadir un alumno nuevo con los siguientes datos:");
+            console.log("OPCION 10: Añadir un alumno nuevo con los siguientes datos: nombre y género aleatorio, edad aleatoria entre 20 y 50 años, y lista de calificaciones vacía");
             addRandomStudent(students);
             break;
         case 11:
@@ -270,9 +291,10 @@ function displayAction(result, students) {
             break;
         case 18:
             console.log("OPCION 18: Añadir un punto extra a cada nota existente de todos los alumnos. Si los alumnos aún no tienen registrada ninguna nota, les pondremos un 10.");
+            addExtraPoint(students);
             break;
         default:
-            console.log('Opción no valida')
+            console.log('Opción no valida');
             break;
     }
 }
@@ -280,7 +302,7 @@ function displayAction(result, students) {
 async function app() {
     let withinRange = true;
     do {
-        showMenu();        
+        showMenu();
         try {
             const result = await getOption();
             displayAction(result, students)
@@ -289,7 +311,7 @@ async function app() {
             console.log(error);
             withinRange = false
         }
-        
+
     } while (withinRange != false);
 }
 
