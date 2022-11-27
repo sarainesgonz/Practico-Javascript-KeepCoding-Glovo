@@ -1,6 +1,6 @@
 import readline from 'readline';
 import { students } from './utils.js';
-import { showMenu, showAmount, showNames, deleteLast, deleteRandom, showFemales, countMalesAndFemales, allFemales, ageInRange, addRandomStudent, youngestStudent, meanAge, meanAgeFemales, addRandomScore, sortArray, showHighestMark, showHighestMean, addExtraPoint } from './functions.js';
+import { showTable, showMenu, showAmount, showNames, deleteLast, deleteRandom, showFemales, countMalesAndFemales, allFemales, ageInRange, addRandomStudent, youngestStudent, meanAge, meanAgeFemales, addRandomScore, sortArray, showHighestMark, showHighestMean, addExtraPoint } from './functions.js';
 
 const rl = readline.createInterface({
     input: process.stdin,
@@ -29,7 +29,7 @@ function displayAction(result, students) {
     switch (result) {
         case 1:
             console.log("OPCION 1: Mostrar en formato de tabla todos los alumnos.");
-            console.table(students);
+            showTable(students);
             break;
         case 2:
             console.log("OPCION 2: Mostrar por consola la cantidad de alumnos que hay en clase.");
